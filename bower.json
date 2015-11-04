@@ -1,0 +1,31 @@
+{
+  "name": "zoomify",
+  "version": "0.1.0",
+  "authors": [
+    "Indri Muska <indrimuska@gmail.com>"
+  ],
+  "description": "Zoomify is a jQuery plugin for simple lightboxes with zoom effect.",
+  "main": [
+    "./dist/zoomify.js"
+  ],
+  "keywords": [
+    "switcher",
+    "switches",
+    "toggle",
+    "checkbox",
+    "angular"
+  ],
+  "license": "MIT",
+  "homepage": "http://indrimuska.github.io/zoomify",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.3",
+    "jquery": "~1.7.1"
+  }
+}
