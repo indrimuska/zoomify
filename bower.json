@@ -1,6 +1,6 @@
 {
   "name": "zoomify",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "authors": [
     "Indri Muska <indrimuska@gmail.com>"
   ],
@@ -9,11 +9,11 @@
     "./dist/zoomify.js"
   ],
   "keywords": [
-    "switcher",
-    "switches",
-    "toggle",
-    "checkbox",
-    "angular"
+    "lightbox",
+    "zoom",
+    "image",
+    "fullscreen",
+    "jquery"
   ],
   "license": "MIT",
   "homepage": "http://indrimuska.github.io/zoomify",

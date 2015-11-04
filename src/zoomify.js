@@ -9,10 +9,11 @@
 	
 	function Zoomify() {
 		defaults = {
-			delay:  200,
-			easing: 'linear',
-			scale:  0.9
+			duration: 200,
+			easing:   'linear',
+			scale:    0.9
 		};
+		this._zooming = false;
 		this._zoomed  = false;
 		this._timeout = null;
 		this.$shadow  = null;
@@ -31,8 +32,8 @@
 	};
 	
 	// css utilities
-	Zoomify.prototype.transition = function (value, $element) {
-		($element || this.$image).css({
+	Zoomify.prototype.transition = function ($element, value) {
+		$element.css({
 			'-webkit-transition': value,
 			'-moz-transition': value,
 			'-ms-transition': value,
@@ -41,15 +42,16 @@
 		});
 	};
 	Zoomify.prototype.addTransition = function ($element) {
-		this.transition('all ' + this.options.delay + 'ms ' + this.options.easing, $element);
+		this.transition($element, 'all ' + this.options.duration + 'ms ' + this.options.easing);
 	};
-	Zoomify.prototype.removeTransitionAfterTransition = function ($element) {
+	Zoomify.prototype.removeTransition = function ($element, callback) {
 		var that = this;
 		
 		clearTimeout(this._timeout);
 		this._timeout = setTimeout(function () {
-			that.transition('', $element);
-		}, this.options.delay);
+			that.transition($element, '');
+			if ($.isFunction(callback)) callback.call(that);
+		}, this.options.duration);
 	};
 	Zoomify.prototype.transform = function (value) {
 		this.$image.css({
@@ -60,14 +62,16 @@
 			'transform': value
 		});
 	};
-	Zoomify.prototype.doTransform = function (scale, translateX, translateY) {
-		this.addTransition();
+	Zoomify.prototype.transformScaleAndTranslate = function (scale, translateX, translateY, callback) {
+		this.addTransition(this.$image);
 		this.transform('scale(' + scale + ') translate(' + translateX + 'px, ' + translateY + 'px)');
-		this.removeTransitionAfterTransition();
+		this.removeTransition(this.$image, callback);
 	};
 	
 	// zooming functions
 	Zoomify.prototype.zoom = function () {
+		if (this._zooming) return;
+		
 		if (this._zoomed) this.zoomOut();
 		else this.zoomIn();
 	};
@@ -76,12 +80,12 @@
 			transform = this.$image.css('transform');
 		
 		this.transform('none');
-		this.transition('none');
+		this.transition(this.$image, 'none');
 		this.$image.addClass('zoomed');
 		
 		var offset     = this.$image.offset(),
-			width      = this.$image.outerWidth(),
-			height     = this.$image.outerHeight(),
+			width      = this.$image.width(),
+			height     = this.$image.height(),
 			wWidth     = $(window).width(),
 			wHeight    = $(window).height(),
 			scaleX     = wWidth / width,
@@ -90,17 +94,28 @@
 			translateX = (-offset.left + (wWidth - width) / 2) / scale,
 			translateY = (-offset.top + (wHeight - height) / 2 + $(document).scrollTop()) / scale;
 		
-		this.transform(transform);
+		this.transform(this.$image, transform);
 		
+		this._zooming = true;
+		that.$image.trigger('zoom-in.zoomify');
 		setTimeout(function () {
 			that.addShadow();
-			that.doTransform(scale, translateX, translateY);
+			that.transformScaleAndTranslate(scale, translateX, translateY, function () {
+				this._zooming = false;
+				that.$image.trigger('zoom-in-complete.zoomify');
+			});
 			that._zoomed = true;
 		});
 	};
 	Zoomify.prototype.zoomOut = function () {
-		this.$image.removeClass('zoomed');
-		this.doTransform(1, 0, 0);
+		var that = this;
+		
+		this._zooming = true;
+		that.$image.trigger('zoom-out.zoomify');
+		this.transformScaleAndTranslate(1, 0, 0, function () {
+			this._zooming = false;
+			that.$image.trigger('zoom-out-complete.zoomify');
+		});
 		this.removeShadow();
 		this._zoomed = false;
 	};
@@ -108,7 +123,7 @@
 	// page listener callbacks
 	Zoomify.prototype.reposition = function () {
 		if (this._zoomed) {
-			this.transition('none');
+			this.transition(this.$image, 'none');
 			this.zoomIn();
 		}
 	};
@@ -116,8 +131,9 @@
 	// shadow background
 	Zoomify.prototype.addShadow = function () {
 		var that = this;
-		if (this.$shadow) return;
+		if (this._zoomed) return;
 		
+		if (that.$shadow) that.$shadow.remove();
 		this.$shadow = $('<div class="zoomify-shadow"></div>');
 		$('body').append(this.$shadow);
 		this.addTransition(this.$shadow);
@@ -127,14 +143,14 @@
 	};
 	Zoomify.prototype.removeShadow = function () {
 		var that = this;
+		if (!this.$shadow) return;
 		
 		this.addTransition(this.$shadow);
 		this.$shadow.removeClass('zoomed');
-		
-		setTimeout(function () {
-			that.$shadow.remove();
+		this.$image.one('zoom-out-complete.zoomify', function () {
+			if (that.$shadow) that.$shadow.remove();
 			that.$shadow = null;
-		}, this.options.delay);
+		});
 	};
 	
 	// plugin definition
