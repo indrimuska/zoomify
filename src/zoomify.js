@@ -79,9 +79,8 @@
 		var that      = this,
 			transform = this.$image.css('transform');
 		
-		this.transform('none');
 		this.transition(this.$image, 'none');
-		this.$image.addClass('zoomed');
+		this.transform('none');
 		
 		var offset     = this.$image.offset(),
 			width      = this.$image.outerWidth(),
@@ -94,10 +93,10 @@
 			translateX = (-offset.left + (wWidth - width) / 2) / scale,
 			translateY = (-offset.top + (wHeight - height) / 2 + $(document).scrollTop()) / scale;
 		
-		this.transform(this.$image, transform);
+		this.transform(transform);
 		
 		this._zooming = true;
-		this.$image.trigger('zoom-in.zoomify');
+		this.$image.addClass('zoomed').trigger('zoom-in.zoomify');
 		setTimeout(function () {
 			that.addShadow();
 			that.transformScaleAndTranslate(scale, translateX, translateY, function () {

@@ -1,6 +1,6 @@
 {
   "name": "zoomify",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Zoomify is a jQuery plugin for simple lightboxes with zoom effect.",
   "main": "Gruntfile.js",
   "repository": {
