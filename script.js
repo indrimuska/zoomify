@@ -1,4 +1,5 @@
 var columns = [ 12, 6, 6, 3, 3, 3, 3, 6, 6, 12 ],
+	columnCounter = 0,
 	images = [
 		{
 			credits: 'http://photography.nationalgeographic.com/contest-2015/wallpapers/week-8-all/13',
@@ -38,7 +39,10 @@ images.forEach(function (i, k) {
 	
 	$('<p></p>').append(image).appendTo(container);
 	$('<p class="text-overflow text-center small"></p>').append(credits).appendTo(container);
-	$('.examples').append(container);
+	if (columnCounter % 12 == 0)
+		$('.examples').append('<div class="row"></div>');
+	$('.examples .row:last').append(container);
+	columnCounter += columns[k];
 });
 
 // zoomify!
