@@ -42,4 +42,4 @@ images.forEach(function (i, k) {
 });
 
 // zoomify!
-$('.example img').zoomify({ delay: 200 });
+$('.example img').zoomify();
