@@ -84,8 +84,8 @@
 		this.$image.addClass('zoomed');
 		
 		var offset     = this.$image.offset(),
-			width      = this.$image.width(),
-			height     = this.$image.height(),
+			width      = this.$image.outerWidth(),
+			height     = this.$image.outerHeight(),
 			wWidth     = $(window).width(),
 			wHeight    = $(window).height(),
 			scaleX     = wWidth / width,
@@ -97,11 +97,11 @@
 		this.transform(this.$image, transform);
 		
 		this._zooming = true;
-		that.$image.trigger('zoom-in.zoomify');
+		this.$image.trigger('zoom-in.zoomify');
 		setTimeout(function () {
 			that.addShadow();
 			that.transformScaleAndTranslate(scale, translateX, translateY, function () {
-				this._zooming = false;
+				that._zooming = false;
 				that.$image.trigger('zoom-in-complete.zoomify');
 			});
 			that._zoomed = true;
@@ -111,10 +111,10 @@
 		var that = this;
 		
 		this._zooming = true;
-		that.$image.trigger('zoom-out.zoomify');
+		this.$image.trigger('zoom-out.zoomify');
 		this.transformScaleAndTranslate(1, 0, 0, function () {
-			this._zooming = false;
-			that.$image.trigger('zoom-out-complete.zoomify');
+			that._zooming = false;
+			that.$image.removeClass('zoomed').trigger('zoom-out-complete.zoomify');
 		});
 		this.removeShadow();
 		this._zoomed = false;
