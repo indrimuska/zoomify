@@ -1,5 +1,7 @@
 # Zoomify
 
+[![Join the chat at https://gitter.im/indrimuska/zoomify](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/indrimuska/zoomify?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Zoomify is a jQuery plugin for simple lightboxes with zoom effect.
 
 Check out the examples page: [http://indrimuska.github.io/zoomify](http://indrimuska.github.io/zoomify).
