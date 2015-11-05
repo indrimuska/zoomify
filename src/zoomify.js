@@ -7,28 +7,25 @@
  */
 ;(function($){
 	
-	function Zoomify() {
-		defaults = {
-			duration: 200,
-			easing:   'linear',
-			scale:    0.9
-		};
+	// initialization
+	Zoomify = function (element, options) {
+		var that = this;
+		
 		this._zooming = false;
 		this._zoomed  = false;
 		this._timeout = null;
 		this.$shadow  = null;
-	};
-	
-	// initialization
-	Zoomify.prototype.init = function (element, settings) {
-		var that = this;
-		
-		this.$image  = $(element).addClass('zoomify');
-		this.options = $.extend({}, defaults, settings);
+		this.$image   = $(element).addClass('zoomify');
+		this.options  = $.extend({}, Zoomify.DEFAULTS, this.$image.data(), options);
 		
 		this.$image.on('click', function () { that.zoom(); });
 		$(window).on('resize', function () { that.reposition(); });
 		$(document).on('scroll', function () { that.reposition(); });
+	};
+	Zoomify.DEFAULTS = {
+		duration: 200,
+		easing:   'linear',
+		scale:    0.9
 	};
 	
 	// css utilities
@@ -153,12 +150,14 @@
 	};
 	
 	// plugin definition
-	$.fn.zoomify = function (settings) {
-		this.each(function () {
-			var zoomify = new Zoomify();
-			zoomify.init(this, settings);
+	$.fn.zoomify = function (option) {
+		return this.each(function () {
+			var $this   = $(this),
+				zoomify = $this.data('zoomify');
+			
+			if (!zoomify) $this.data('zoomify', (zoomify = new Zoomify(this, typeof option == 'object' && option)));
+			if (typeof option == 'string' && ['zoom', 'zoomIn', 'zoomOut', 'reposition'].indexOf(option) >= 0) zoomify[option]();
 		});
-		return this;
 	};
 	
 })(jQuery);
