@@ -31,7 +31,7 @@ Property | Type | Default | Description
 ---|---|---|---
 duration | `integer` | `200` | Transition duration in milliseconds.
 easing | `string` | `"linear"` | Transition property name.
-scale | `float` | `0.9` | Maximum zoom scale (1 means full screen).
+scale | `float` | `0.9` | If the image is bigger than the size of the page, it represent the maximum zoom scale according to page width/height (from 0 to 1).
 
 Options can be passed via data attributes or JavaScript. For data attributes, append the option name to `data-`, as in `data-duration=""`.
 

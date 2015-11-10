@@ -82,11 +82,13 @@
 		var offset     = this.$image.offset(),
 			width      = this.$image.outerWidth(),
 			height     = this.$image.outerHeight(),
+			nWidth     = this.$image[0].naturalWidth || +Infinity,
+			nHeight    = this.$image[0].naturalHeight || +Infinity,
 			wWidth     = $(window).width(),
 			wHeight    = $(window).height(),
-			scaleX     = wWidth / width,
-			scaleY     = wHeight / height,
-			scale      = Math.min(scaleX, scaleY) * this.options.scale,
+			scaleX     = Math.min(nWidth, wWidth * this.options.scale) / width,
+			scaleY     = Math.min(nHeight, wHeight * this.options.scale) / height,
+			scale      = Math.min(scaleX, scaleY),
 			translateX = (-offset.left + (wWidth - width) / 2) / scale,
 			translateY = (-offset.top + (wHeight - height) / 2 + $(document).scrollTop()) / scale;
 		

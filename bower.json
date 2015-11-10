@@ -1,6 +1,6 @@
 {
   "name": "zoomify",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "authors": [
     "Indri Muska <indrimuska@gmail.com>"
   ],
@@ -25,7 +25,6 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.4.3",
     "jquery": "~1.7.1"
   }
 }
