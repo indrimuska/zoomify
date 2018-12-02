@@ -21,6 +21,10 @@
 		this.$image.on('click', function () { that.zoom(); });
 		$(window).on('resize', function () { that.reposition(); });
 		$(document).on('scroll', function () { that.reposition(); });
+		$(window).on('keyup', function (e) { 
+			if (that._zoomed && e.keyCode == 27)
+				that.zoomOut();
+		 });
 	};
 	Zoomify.DEFAULTS = {
 		duration: 200,
