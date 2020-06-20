@@ -21,7 +21,7 @@
   },
   "homepage": "http://indrimuska.github.io/zoomify",
   "dependencies": {
-    "jquery": "~3.3.1"
+    "jquery": "~3.5.0"
   },
   "devDependencies": {
     "grunt": "^1.0.3",
