@@ -2,11 +2,12 @@
 
 [![Join the chat at https://gitter.im/indrimuska/zoomify](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/indrimuska/zoomify?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Zoomify is a jQuery plugin for simple lightboxes with zoom effect.
+Zoomify is a jQuery plugin for simple lightboxes with zoom effect and rotation options.
 
 Check out the examples page: [http://indrimuska.github.io/zoomify](http://indrimuska.github.io/zoomify).
 
 ![Zoomify: jQuery Plugin for lightboxes](http://indrimuska.github.io/zoomify/img/zoomify-preview.png)
+![Rotation](https://github.com/user-attachments/assets/b395c8ed-a9d7-4187-835b-5b0a36d99180)
 
 ## Installation
 
@@ -57,6 +58,10 @@ zoom-in.zoomify | Fired before each zoom-in transformation.
 zoom-in-complete.zoomify | Fired after each zoom-in transformation.
 zoom-out.zoomify | Fired before each zoom-out transformation.
 zoom-out-complete.zoomify | Fired after each zoom-out transformation.
+rotate-left.zoomify | Fired before each rotate-left transformation.
+rotate-left-complete.zoomify | Fired after each rotate-left transformation.
+rotate-right.zoomify | Fired before each rotate-right transformation.
+rotate-right-complete.zoomify | Fired after each rotate-right transformation.
 
 ```javascript
 $('#myImage').on('zoom-in.zoomify', function () {
